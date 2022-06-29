@@ -189,10 +189,10 @@ class Model:
       model = gensim.models.Word2Vec.load(self.args['model'])
       if isinstance(model, gensim.models.word2vec.Word2Vec):
         self.args['model_type'] = 'word2vec'
-        print(' * loaded model with', len(model.wv.index2entity), 'words')
+        print(' * loaded model with', len(model.wv.index_to_key), 'words')
       elif isinstance(model, gensim.models.doc2vec.Doc2Vec):
         self.args['model_type'] = 'doc2vec'
-        print(' * loaded model with', len(model.wv.index2entity), 'docs')
+        print(' * loaded model with', len(model.wv.index_to_key), 'docs')
       else:
         raise Exception('The loaded model type could not be inferred. Please create a new model')
       return model
@@ -217,7 +217,7 @@ class Model:
         max_final_vocab = self.args.get('max_n', None),
         epochs = self.args.get('iter', 20),
       )
-      print(' * created model with', len(self.model.wv.index2entity), 'words')
+      print(' * created model with', len(self.model.wv.index_to_key), 'words')
     elif self.args['model_type'] == 'doc2vec':
       self.model = gensim.models.Doc2Vec(
         input_data,
@@ -228,7 +228,7 @@ class Model:
         callbacks = [EpochLogger()],
         epochs = self.args.get('iter', 20),
       )
-      print(' * created model with', len(self.model.wv.index2entity), 'docs')
+      print(' * created model with', len(self.model.wv.index_to_key), 'docs')
     else:
       raise Exception('The requested model type is not supported:', self.args['model_type'])
 
@@ -271,7 +271,7 @@ class Model:
   def create_manifest(self):
     '''Create a plot from this model'''
     if self.args.get('model_type', False) == 'word2vec':
-      strings = self.model.wv.index2entity
+      strings = self.model.wv.index_to_key
       df = np.array([self.model.wv[w] for w in strings])
     elif self.args.get('model_type', False) == 'doc2vec':
       strings = [self.clean_filename(i) for i in self.texts]
