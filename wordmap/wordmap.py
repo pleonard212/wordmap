@@ -209,13 +209,13 @@ class Model:
     if self.args['model_type'] == 'word2vec':
       self.model = gensim.models.Word2Vec(
         input_data,
-        size = self.args['size'],
+        vector_size = self.args['size'],
         window = self.args['window'],
         min_count = self.args['min_count'],
         workers = self.args['workers'],
         callbacks = [EpochLogger()],
         max_final_vocab = self.args.get('max_n', None),
-        iter = self.args.get('iter', 20),
+        epochs = self.args.get('iter', 20),
       )
       print(' * created model with', len(self.model.wv.index2entity), 'words')
     elif self.args['model_type'] == 'doc2vec':
@@ -226,7 +226,7 @@ class Model:
         min_count = self.args['min_count'],
         workers = self.args['workers'],
         callbacks = [EpochLogger()],
-        iter = self.args.get('iter', 20),
+        epochs = self.args.get('iter', 20),
       )
       print(' * created model with', len(self.model.wv.index2entity), 'docs')
     else:
