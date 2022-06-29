@@ -8,7 +8,7 @@ from sklearn.decomposition import NMF
 from collections import defaultdict
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
-from scipy.misc import imread
+from imageio import imread
 from flask_cors import CORS
 from os.path import join
 from lloyd import Field
